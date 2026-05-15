@@ -25,22 +25,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // 2. Visitor Counter Logic
     const visitorElement = document.getElementById('visitor-counter');
     
-    // Check if a base count exists in localStorage, change key to reset it
-    let baseCount = localStorage.getItem('portfolio_visitor_base_v2');
-    if (!baseCount) {
-        // Start from 0
-        baseCount = 0;
-    } else {
-        baseCount = parseInt(baseCount);
-    }
-
-    // Increment count for this visit
-    baseCount += 1;
-    localStorage.setItem('portfolio_visitor_base_v2', baseCount.toString());
-
-    // Format the number with commas
-    const formattedCount = baseCount.toLocaleString();
-
     // Determine the suffix (st, nd, rd, th)
     const getSuffix = (n) => {
         const s = ["th", "st", "nd", "rd"];
@@ -48,7 +32,50 @@ document.addEventListener('DOMContentLoaded', () => {
         return s[(v - 20) % 10] || s[v] || s[0];
     };
 
-    visitorElement.textContent = `You are the ${formattedCount}${getSuffix(baseCount)} visitor`;
+    const updateVisitorDisplay = (count) => {
+        const formattedCount = count.toLocaleString();
+        visitorElement.textContent = `You are the ${formattedCount}${getSuffix(count)} visitor`;
+    };
+
+    const counterNamespace = 'faisalkhan_portfolio';
+    const counterName = 'visits_global';
+
+    // We use sessionStorage so the counter doesn't increment on every page refresh,
+    // but increments when opened in a new tab or browser.
+    const hasVisitedSession = sessionStorage.getItem('portfolio_visited_session');
+
+    if (!hasVisitedSession) {
+        // Increment the global count
+        fetch(`https://api.counterapi.dev/v1/${counterNamespace}/${counterName}/up`, { cache: 'no-store' })
+            .then(response => response.json())
+            .then(data => {
+                const count = data.count;
+                sessionStorage.setItem('portfolio_visited_session', 'true');
+                localStorage.setItem('portfolio_global_count', count.toString());
+                updateVisitorDisplay(count);
+            })
+            .catch(error => {
+                console.error('Error fetching global visitor count:', error);
+                // Fallback to local count if API fails
+                let localCount = parseInt(localStorage.getItem('portfolio_global_count') || '1');
+                updateVisitorDisplay(localCount);
+            });
+    } else {
+        // Just fetch the current global count without incrementing
+        fetch(`https://api.counterapi.dev/v1/${counterNamespace}/${counterName}?t=${new Date().getTime()}`, { cache: 'no-store' })
+            .then(response => response.json())
+            .then(data => {
+                const count = data.count;
+                localStorage.setItem('portfolio_global_count', count.toString());
+                updateVisitorDisplay(count);
+            })
+            .catch(error => {
+                console.error('Error fetching global visitor count:', error);
+                // Fallback
+                let localCount = parseInt(localStorage.getItem('portfolio_global_count') || '1');
+                updateVisitorDisplay(localCount);
+            });
+    }
 
     // Prevent form submission from reloading page (since there is no backend yet)
     const contactForm = document.querySelector('.contact-form');
