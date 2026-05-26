@@ -593,8 +593,10 @@ h1, h2, h3 {
 
 /* Custom Theme Switch (from Uiverse.io) */
 .theme-container {
-  transform: scale(0.5); /* Scale down to fit the navbar nicely */
-  transform-origin: right center;
+  width: 60px; /* Exact scaled layout width */
+  height: 30px; /* Exact scaled layout height */
+  position: relative;
+  flex-shrink: 0;
   margin-left: 1rem;
 }
 
@@ -616,20 +618,24 @@ h1, h2, h3 {
   -ms-flex-align: center;
   align-items: center;
   cursor: pointer;
-  position: relative;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: scale(0.5);
+  transform-origin: top left;
   -webkit-transition: -webkit-transform 0.4s;
   transition: -webkit-transform 0.4s;
   transition: transform 0.4s;
 }
 
 .theme-label:hover {
-  -webkit-transform: perspective(100px) rotateX(5deg) rotateY(-5deg);
-  transform: perspective(100px) rotateX(5deg) rotateY(-5deg);
+  -webkit-transform: scale(0.5) perspective(100px) rotateX(5deg) rotateY(-5deg);
+  transform: scale(0.5) perspective(100px) rotateX(5deg) rotateY(-5deg);
 }
 
 #theme-checkbox:checked ~ .theme-label:hover {
-  -webkit-transform: perspective(100px) rotateX(-5deg) rotateY(5deg);
-  transform: perspective(100px) rotateX(-5deg) rotateY(5deg);
+  -webkit-transform: scale(0.5) perspective(100px) rotateX(-5deg) rotateY(5deg);
+  transform: scale(0.5) perspective(100px) rotateX(-5deg) rotateY(5deg);
 }
 
 #theme-checkbox {
@@ -680,12 +686,16 @@ h1, h2, h3 {
         font-size: 0.85rem;
     }
     .top-nav {
-        padding: 1rem;
-        gap: 0.5rem;
+        padding: 0.75rem 0.5rem;
+        justify-content: space-between;
+        gap: 0;
     }
     .nav-item {
-        font-size: 0.8rem;
-        padding: 0.5rem;
+        font-size: 0.75rem;
+        padding: 0.4rem 0.45rem;
+    }
+    .theme-container {
+        margin-left: 0;
     }
 }
 
