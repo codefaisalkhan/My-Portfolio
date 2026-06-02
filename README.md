@@ -26,5 +26,5 @@ If you wish to explore or test the codebase locally:
 
 ## 📨 Let's Connect
 I am actively accepting freelance contracts, premium web development projects, and full-time software engineering opportunities.
-* **X (Twitter):** [Your X Handle]
-* **LinkedIn:** [Your LinkedIn Profile]
+* **X (Twitter):** [@codefaisalkhan](https://x.com/codefaisalkhan)
+* **LinkedIn:** [Faisal Khan](https://www.linkedin.com/in/01faisalkhan/)
