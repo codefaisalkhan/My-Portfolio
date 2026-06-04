@@ -202,10 +202,19 @@ h1, h2, h3 {
     gap: 1.5rem;
 }
 
+@media (min-width: 640px) {
+    .projects-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
 .project-card {
     transition: all 0.3s ease;
     padding: 0; /* Remove padding from glass-box so image can bleed to edges at top */
     overflow: hidden; /* Ensure rounded corners clip the image */
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
 
 .project-card:hover {
@@ -230,30 +239,33 @@ h1, h2, h3 {
 }
 
 .project-content {
-    padding: 1.5rem;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
 }
 
 .project-title {
-    font-size: 1.3rem;
+    font-size: 1.15rem;
     font-weight: 600;
     margin-bottom: 0.75rem;
     display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 0.5rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
 }
 
 .project-title span {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     color: var(--text-secondary);
     font-weight: 400;
 }
 
 .project-desc {
     color: var(--text-secondary);
-    font-size: 0.95rem;
+    font-size: 0.88rem;
     margin-bottom: 1.5rem;
-    line-height: 1.6;
+    line-height: 1.5;
 }
 
 .project-desc strong {
@@ -263,6 +275,7 @@ h1, h2, h3 {
 
 .project-btn {
     align-self: flex-start;
+    margin-top: auto;
 }
 
 /* Featured Article Section */
